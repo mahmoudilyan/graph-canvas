@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Canvas Graphs</title>
+        
+        <script src="js/doublyLinked.js"></script>
+        <script src="js/canvas.js"></script>
+        <script src="js/graph.js"></script>
+        <style>
+            body{
+                width: 960px;
+                margin: 0 auto;
+            }
+            canvas#circleCanvas{
+                border: 1px solid #3b3b3b;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="circleCanvas" width="800" height="800"></canvas>
+        <script>
+            var graph = new Graph();
+            var circles = document.getElementById("circleCanvas");
+            var context = circles.getContext("2d");
+            var rect = circles.getBoundingClientRect();
+
+            circles.onclick = function(event){
+                    var x = event.clientX - rect.left,
+                        y = event.clientY - rect.top,
+                        fillStyle = "#3b3b3b",
+                        radius = 20,
+                        lineWidth = 35,
+                        motions = {x: ["right","left"], y: ["up","down"]},
+                        strokeStyle = "#" + Math.floor(Math.random() * 16777215).toString(16),
+                        motionX = motions.x[Math.floor(Math.random() * 2)],
+                        motionY = motions.y[Math.floor(Math.random() * 2)],
+                        canvas = addCircleCanvas(x,y,fillStyle,radius,lineWidth, strokeStyle, motionX, motionY);
+                        
+                    graph.addVertix(canvas);
+                    drawCanvas(graph,context);
+            };
+            
+
+            var animate = setInterval(function(){
+                context.clearRect(0, 0, circles.width, circles.height);                
+                changeGraph(graph, rect.width, rect.height, 20, 0.1111, 0.5555);
+                drawCanvas(graph,context);
+            }, 5)
+            
+
+        </script>
+    </body>
+</html>
